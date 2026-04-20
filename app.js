@@ -201,17 +201,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // ============================================
     // PHASE 3: GENERATE PDF
     // ============================================
-    btnGeneratePdf.addEventListener('click', () => {
+    btnGeneratePdf.addEventListener('click', async () => {
         if (signaturePadArrendatario.isEmpty()) {
             alert('Por favor, firma antes de generar el PDF final.');
             return;
         }
 
+        btnGeneratePdf.textContent = "Generando PDF... por favor espera";
+        btnGeneratePdf.disabled = true;
+
         // Rellenar Plantilla PDF
         const populatePdf = (id, formId) => {
             const val = document.getElementById(formId).value;
-            // formatear fecha si es necesario
-            document.getElementById(id).textContent = val ? val : '---';
+            const el = document.getElementById(id);
+            if (el) el.textContent = val ? val : '---';
         };
 
         populatePdf('v-lugar', 'lugar');
@@ -240,31 +243,47 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('v-estadoInmuebleText').textContent = estadoText;
 
         populatePdf('v-fianzaMonto', 'fianzaMonto');
-        populatePdf('v-extraComments', 'extraComments');
-        if (!document.getElementById('extraComments').value) {
-            document.getElementById('v-extraComments').textContent = "Ninguna.";
-        }
+        
+        const extraVal = document.getElementById('extraComments').value;
+        document.getElementById('v-extraComments').textContent = extraVal ? extraVal : "Ninguna.";
 
         // Poner firmas (SVG/PNG to IMG src)
-        document.getElementById('pdf-sign-arrendador').src = signaturePadArrendador.toDataURL();
-        document.getElementById('pdf-sign-arrendatario').src = signaturePadArrendatario.toDataURL();
+        const arrendadorImg = document.getElementById('pdf-sign-arrendador');
+        const arrendatarioImg = document.getElementById('pdf-sign-arrendatario');
+        
+        arrendadorImg.src = signaturePadArrendador.toDataURL("image/png");
+        arrendatarioImg.src = signaturePadArrendatario.toDataURL("image/png");
+
+        // Pequeña espera para asegurar que las imágenes se cargan en el DOM
+        await new Promise(resolve => setTimeout(resolve, 800));
 
         // Extraer elemento HTML y usar html2pdf
         const element = document.getElementById('pdf-template');
-        element.style.display = 'block'; // Mostrar temporalmente
 
         const opt = {
-            margin:       15,
-            filename:     'Terminacion_Alquiler.pdf',
+            margin:       [15, 15],
+            filename:     'Resolucion_Alquiler_2026.pdf',
             image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2 },
-            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            html2canvas:  { 
+                scale: 3, 
+                useCORS: true, 
+                letterRendering: true,
+                logging: false
+            },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+            pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
         };
 
         // Generar
-        html2pdf().set(opt).from(element).save().then(() => {
-            // Ocultar de nuevo
-            element.style.display = 'none';
-        });
+        try {
+            await html2pdf().set(opt).from(element).save();
+            btnGeneratePdf.textContent = "Finalizar y Descargar PDF";
+            btnGeneratePdf.disabled = false;
+        } catch (err) {
+            console.error("PDF Error:", err);
+            alert("Error al generar el PDF. Revisa la consola.");
+            btnGeneratePdf.textContent = "Reintentar Descarga";
+            btnGeneratePdf.disabled = false;
+        }
     });
 });
