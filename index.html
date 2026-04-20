@@ -16,8 +16,6 @@
     <!-- Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
@@ -147,51 +145,47 @@
         </form>
     </div>
 
-    <!-- Contenedor del PDF (Se mantiene fuera de la vista pero accesible para renderizado) -->
-    <div id="pdf-render-container" style="position: absolute; left: -9999px; top: 0;">
-        <div id="pdf-template">
+    <!-- Contenedor del PDF (Oculto pero procesable) -->
+    <div id="pdf-render-container" style="display: none;">
+        <div id="pdf-template" style="width: 700px; padding: 40px; background: white; color: black; font-family: 'Times New Roman', serif;">
             <div class="pdf-content">
-                <center><h1 class="pdf-title">ACUERDO DE TERMINACIÓN DE CONTRATO DE ARRENDAMIENTO</h1></center>
+                <div class="pdf-header">
+                    <h1 class="pdf-title">ACUERDO DE TERMINACIÓN DE CONTRATO DE ARRENDAMIENTO</h1>
+                </div>
                 
                 <p class="pdf-date">En <span class="pdf-v" id="v-lugar">...</span>, a <span class="pdf-v" id="v-fechaRescision">...</span>.</p>
                 
                 <h2 class="pdf-section-title">REUNIDOS</h2>
-                <div class="pdf-p-group">
-                    <p><strong>De una parte:</strong> <span class="pdf-v" id="v-nombreArrendador">...</span>, mayor de edad, con DNI/NIE <span class="pdf-v" id="v-dniArrendador">...</span> y domicilio a efectos de notificaciones en <span class="pdf-v" id="v-domicilioArrendador">...</span>, actuando como arrendador(a).</p>
-                    
-                    <p><strong>De otra parte:</strong> <span class="pdf-v" id="v-nombreArrendatario">...</span>, mayor de edad, con DNI/NIE <span class="pdf-v" id="v-dniArrendatario">...</span> y domicilio en <span class="pdf-v" id="v-domicilioArrendatario">...</span>, actuando como arrendatario(a).</p>
-                </div>
+                <p><strong>De una parte:</strong> <span class="pdf-v" id="v-nombreArrendador">...</span>, mayor de edad, con DNI/NIE <span class="pdf-v" id="v-dniArrendador">...</span> y domicilio a efectos de notificaciones en <span class="pdf-v" id="v-domicilioArrendador">...</span>, actuando como arrendador(a).</p>
+                
+                <p><strong>De otra parte:</strong> <span class="pdf-v" id="v-nombreArrendatario">...</span>, mayor de edad, con DNI/NIE <span class="pdf-v" id="v-dniArrendatario">...</span> y domicilio en <span class="pdf-v" id="v-domicilioArrendatario">...</span>, actuando como arrendatario(a).</p>
                 
                 <p>Ambas partes se reconocen capacidad legal suficiente para este acto y, de común acuerdo,</p>
                 
                 <h2 class="pdf-section-title">EXPONEN</h2>
-                <div class="pdf-p-group">
-                    <p><strong>PRIMERO.</strong> Que con fecha <span class="pdf-v" id="v-fechaOriginal">...</span> las partes suscribieron un contrato de arrendamiento relativo a la vivienda sita en <span class="pdf-v" id="v-direccionInmueble">...</span>.</p>
-                    
-                    <p><strong>SEGUNDO.</strong> Que ambas partes han acordado dar por finalizado el citado contrato de arrendamiento con fecha <span class="pdf-v" id="v-fechaRescision2">...</span>, procediendo el arrendatario a la entrega de la posesión y llaves de la vivienda en este mismo acto, dándose por extinguida la relación arrendaticia.</p>
-                </div>
+                <p><strong>PRIMERO.</strong> Que con fecha <span class="pdf-v" id="v-fechaOriginal">...</span> las partes suscribieron un contrato de arrendamiento relativo a la vivienda sita en <span class="pdf-v" id="v-direccionInmueble">...</span>.</p>
+                
+                <p><strong>SEGUNDO.</strong> Que ambas partes han acordado dar por finalizado el citado contrato de arrendamiento con fecha <span class="pdf-v" id="v-fechaRescision2">...</span>, procediendo el arrendatario a la entrega de la posesión y llaves de la vivienda en este mismo acto, dándose por extinguida la relación arrendaticia.</p>
                 
                 <h2 class="pdf-section-title">ACUERDAN Y ESTIPULAN</h2>
-                <div class="pdf-p-group">
-                    <p><strong>I. Estado del inmueble:</strong> El arrendador manifiesta recibir el inmueble <span class="pdf-v" id="v-estadoInmuebleText">...</span>.</p>
-                    
-                    <p><strong>II. Liquidación y Fianza:</strong> Según lo acordado, corresponde una liquidación de fianza y/u otras cantidades a favor o en contra de <span class="pdf-v" id="v-fianzaMonto">...</span> euros. Dicha cantidad queda liquidada de conformidad entre las partes.</p>
-                    
-                    <p><strong>III. Estipulaciones adicionales:</strong> <span class="pdf-v" id="v-extraComments">...</span></p>
-                    
-                    <p><strong>IV. Finiquito:</strong> Con este acuerdo, ambas partes liquidan todas las obligaciones derivadas del contrato original, declarando no tener nada más que reclamarse mutuamente por pacto de arrendamiento, asumiendo su total resolución y otorgándose mutuo finiquito.</p>
-                </div>
+                <p><strong>I. Estado del inmueble:</strong> El arrendador manifiesta recibir el inmueble <span class="pdf-v" id="v-estadoInmuebleText">...</span>.</p>
                 
-                <p style="margin-top: 20px;">En prueba de total conformidad, firman el presente documento por duplicado en el lugar y fecha arriba indicados.</p>
+                <p><strong>II. Liquidación y Fianza:</strong> Según lo acordado, corresponde una liquidación de fianza y/u otras cantidades a favor o en contra de <span class="pdf-v" id="v-fianzaMonto">...</span> euros. Dicha cantidad queda liquidada de conformidad entre las partes.</p>
                 
-                <div class="pdf-signatures">
-                    <div class="pdf-signature-box">
+                <p><strong>III. Estipulaciones adicionales:</strong> <span class="pdf-v" id="v-extraComments">...</span></p>
+                
+                <p><strong>IV. Finiquito:</strong> Con este acuerdo, ambas partes liquidan todas las obligaciones derivadas del contrato original, declarando no tener nada más que reclamarse mutuamente por pacto de arrendamiento, asumiendo su total resolución y otorgándose mutuo finiquito.</p>
+                
+                <p style="margin-top: 30px;">En prueba de total conformidad, firman el presente documento por duplicado en el lugar y fecha arriba indicados.</p>
+                
+                <div class="pdf-signatures" style="display: flex; justify-content: space-between; margin-top: 50px;">
+                    <div class="pdf-signature-box" style="width: 45%; text-align: center;">
                         <p><strong>EL ARRENDADOR</strong></p>
-                        <div class="pdf-sign-img-wrap"><img id="pdf-sign-arrendador" src="" alt="Firma Arrendador"></div>
+                        <img id="pdf-sign-arrendador" src="" alt="Firma Arrendador" style="max-width: 100%; height: 100px; border-bottom: 1px solid black; display: block; margin: 10px auto;">
                     </div>
-                    <div class="pdf-signature-box">
+                    <div class="pdf-signature-box" style="width: 45%; text-align: center;">
                         <p><strong>EL ARRENDATARIO</strong></p>
-                        <div class="pdf-sign-img-wrap"><img id="pdf-sign-arrendatario" src="" alt="Firma Arrendatario"></div>
+                        <img id="pdf-sign-arrendatario" src="" alt="Firma Arrendatario" style="max-width: 100%; height: 100px; border-bottom: 1px solid black; display: block; margin: 10px auto;">
                     </div>
                 </div>
             </div>
