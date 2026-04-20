@@ -258,7 +258,11 @@ document.addEventListener('DOMContentLoaded', () => {
         await new Promise(resolve => setTimeout(resolve, 800));
 
         // Extraer elemento HTML y usar html2pdf
+        const container = document.getElementById('pdf-render-container');
         const element = document.getElementById('pdf-template');
+
+        // Mostrar brevemente para que html2canvas lo capture (imprescindible)
+        container.style.display = 'block';
 
         const opt = {
             margin:       [15, 15],
@@ -268,7 +272,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 scale: 3, 
                 useCORS: true, 
                 letterRendering: true,
-                logging: false
+                logging: false,
+                scrollX: 0,
+                scrollY: 0
             },
             jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
             pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
@@ -277,9 +283,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // Generar
         try {
             await html2pdf().set(opt).from(element).save();
+            container.style.display = 'none'; // Volver a ocultar
             btnGeneratePdf.textContent = "Finalizar y Descargar PDF";
             btnGeneratePdf.disabled = false;
         } catch (err) {
+            container.style.display = 'none';
             console.error("PDF Error:", err);
             alert("Error al generar el PDF. Revisa la consola.");
             btnGeneratePdf.textContent = "Reintentar Descarga";
