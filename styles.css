@@ -1,0 +1,332 @@
+:root {
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --secondary-color: #f1f5f9;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --bg-body: #f8fafc;
+    --bg-card: #ffffff;
+    --success: #10b981;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    line-height: 1.6;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: var(--bg-card);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    border-bottom: 2px solid var(--secondary-color);
+    padding-bottom: 20px;
+}
+
+header h1 {
+    font-size: 24px;
+    color: var(--text-main);
+    margin-bottom: 8px;
+}
+
+header p {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+section {
+    margin-bottom: 30px;
+}
+
+h2 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+    border-left: 4px solid var(--primary-color);
+    padding-left: 10px;
+}
+
+h3 {
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: var(--text-main);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.row {
+    display: flex;
+    gap: 15px;
+}
+
+.col {
+    flex: 1;
+}
+
+.mt-1 { margin-top: 10px; }
+.mt-2 { margin-top: 20px; }
+
+label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: var(--text-main);
+}
+
+.disabled-label {
+    color: var(--text-muted);
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background-color: #fff;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+input:disabled,
+select:disabled,
+textarea:disabled {
+    background-color: var(--secondary-color);
+    color: var(--text-muted);
+    cursor: not-allowed;
+}
+
+small {
+    display: block;
+    margin-top: 4px;
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+/* Firmas */
+.signatures-section {
+    background: var(--bg-body);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px dashed var(--border-color);
+}
+
+.signature-box {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+.disabled-box {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.disabled-box .canvas-wrapper {
+    background-color: var(--secondary-color);
+}
+
+.canvas-wrapper {
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    overflow: hidden;
+    background: #fff;
+    touch-action: none; /* Previene scroll en móvil mientras se dibuja */
+}
+
+canvas {
+    display: block;
+    width: 100%;
+    height: 200px;
+}
+
+.btn-clear {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 12px;
+    cursor: pointer;
+    margin-top: 8px;
+    text-decoration: underline;
+}
+
+.btn-clear:hover {
+    color: #ef4444;
+}
+
+.locked-msg {
+    color: var(--success);
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 8px;
+}
+
+/* Botones */
+.actions {
+    margin-top: 40px;
+    text-align: center;
+}
+
+button {
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 16px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    width: 100%;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+}
+
+.btn-secondary {
+    background-color: white;
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background-color: var(--secondary-color);
+}
+
+.btn-whatsapp {
+    background-color: #25D366;
+    color: white;
+}
+
+.btn-whatsapp:hover {
+    background-color: #20BA56;
+}
+
+.share-options {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 8px;
+}
+
+.share-options p {
+    font-size: 14px;
+    color: #166534;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+/* PDF Template (oculto en web, estilo para el print) */
+#pdf-template {
+    /* No se muestra en pantalla nunca. Sólo lo toma html2pdf */
+    width: 800px; /* Ancho fijo para PDF */
+    background: white;
+    padding: 40px;
+    color: black;
+    font-family: 'Times New Roman', serif;
+    line-height: 1.5;
+}
+
+.pdf-content {
+    /* Estilos internos para el doc */
+}
+
+.pdf-title {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-decoration: underline;
+}
+
+.pdf-date {
+    text-align: right;
+    margin-bottom: 30px;
+}
+
+.pdf-section-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.pdf-v {
+    border-bottom: 1px dotted #000;
+    font-weight: bold;
+}
+
+.pdf-signatures {
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.pdf-signature-box {
+    width: 45%;
+    text-align: center;
+}
+
+.pdf-signature-box img {
+    max-width: 100%;
+    height: 120px;
+    object-fit: contain;
+    border-bottom: 1px solid #000;
+    margin-top: 10px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+    }
+    
+    .row {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    button {
+        margin-bottom: 10px;
+    }
+}
