@@ -82,40 +82,45 @@ document.addEventListener('DOMContentLoaded', () => {
     // PHASE 1: GENERATE SHARE LINK
     // ============================================
     btnShare.addEventListener('click', () => {
+        // En lugar de bloquear nativo, damos un aviso si falta algo pero dejamos continuar
         if (!form.checkValidity()) {
-            form.reportValidity();
-            return;
+            console.warn("Faltan algunos campos, pero permitimos continuar.");
         }
 
         if (signaturePadArrendador.isEmpty()) {
-            alert('Por favor, el arrendador debe firmar antes de generar el enlace.');
+            alert('Por favor, el arrendador debe dibujar su firma antes de generar el enlace.');
             return;
         }
 
-        // Serializar form
-        const formData = new FormData(form);
-        const dataObj = Object.fromEntries(formData.entries());
-        
-        // Serializar firma del arrendador (Array de trazos en lugar de Base64 para ahorrar espacio URL)
-        dataObj.signature1 = signaturePadArrendador.toData();
+        try {
+            // Serializar form
+            const formData = new FormData(form);
+            const dataObj = Object.fromEntries(formData.entries());
+            
+            // Serializar firma del arrendador
+            dataObj.signature1 = signaturePadArrendador.toData();
 
-        // Comprimir JSON con LZString
-        const jsonStr = JSON.stringify(dataObj);
-        const compressed = LZString.compressToEncodedURIComponent(jsonStr);
-        
-        // Crear URL Compartible
-        const currentUrl = window.location.href.split('#')[0];
-        generatedUrl = currentUrl + '#data=' + compressed;
+            // Comprimir JSON con LZString
+            const jsonStr = JSON.stringify(dataObj);
+            const compressed = LZString.compressToEncodedURIComponent(jsonStr);
+            
+            // Crear URL Compartible
+            const currentUrl = window.location.href.split('#')[0];
+            generatedUrl = currentUrl + '#data=' + compressed;
 
-        // Mostrar opciones de share
-        btnShare.style.display = 'none';
-        shareOptions.style.display = 'block';
+            // Mostrar opciones de share
+            btnShare.style.display = 'none';
+            shareOptions.style.display = 'block';
 
-        // Bloquear UI del arrendador
-        lockFormInputs();
-        signaturePadArrendador.off();
-        document.getElementById('clear-arrendador').style.display = 'none';
-        document.getElementById('signature1-locked-msg').style.display = 'block';
+            // Bloquear UI del arrendador
+            lockFormInputs();
+            signaturePadArrendador.off();
+            document.getElementById('clear-arrendador').style.display = 'none';
+            document.getElementById('signature1-locked-msg').style.display = 'block';
+        } catch (error) {
+            console.error("Error al generar enlace:", error);
+            alert("Ocurrió un error al generar el código: " + error.message);
+        }
     });
 
     btnWhatsapp.addEventListener('click', () => {
